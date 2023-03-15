@@ -30,5 +30,5 @@ jobs:
           # Path to the Dockerfile
           file: ./Dockerfile
           # List of tags
-          tags: cassiothacosta/seguracacau-backend:latest
+          tags: cassiocostadev/seguracacau_repo:latest
           push: true
