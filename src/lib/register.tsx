@@ -32,7 +32,7 @@ export default async function excuteQuery({ query, values }: any) {
 }
 
 export async function addRegister({username, name, type, category, period, value}: any) {
-  const user = await findUser(username)
+  const user = await findUser({username})
   const register = {
     id: uuidv4(),
     user_id: user.id,
@@ -46,8 +46,8 @@ export async function addRegister({username, name, type, category, period, value
 
   try {
       const result =  excuteQuery({
-          query: 'INSERT INTO despesas_fundos (id, user_id, name, type, category, period, value, createdAt) VALUES(?, ?, ?, ?, ?, ?, ?)',
-          values: [register.id, register.user_id, register.name, register.type, register.category, register.period, register.createdAt]
+          query: 'INSERT INTO despesas_fundos (id, user_id, name, type, category, period, value, createdAt) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
+          values: [register.id, register.user_id, register.name, register.type, register.category, register.period, register.value, register.createdAt]
       });
   } catch ( error ) {
       console.log( error );
@@ -85,15 +85,14 @@ export  async function findSingleRegister({ username, name }: any) {
   }
 }
 
-
-export  async function findRegisters({ username, name }: any) {
-  const user = await findUser(username)
+export  async function findRegisters({ username}: any) {
+  const user = await findUser({username})
   try {
     const result:any = await excuteQuery({
-        query: 'select * from despesas_fundos where user_id = ?',
+        query: 'select name, type, category, period, value from despesas_fundos where user_id = ?',
         values: [user.id],
     });
-    return result[0][0];
+    return result[0];
   } catch ( error ) {
       console.log( error );
   }
