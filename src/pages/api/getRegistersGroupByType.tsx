@@ -1,5 +1,5 @@
 import user from './user'
-import {removeRegister} from '../../lib/register'
+import {findRegistersGroupByType} from '../../lib/register'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Cors from 'cors'
 
@@ -29,12 +29,12 @@ function runMiddleware(
   })
 }
 
-export default async function deleteRegister(req: any, res: any){
+export default async function getRegistersGroupByType(req: any, res: any){
 
   try {
     await runMiddleware(req, res, cors)
-    removeRegister(req.body)
-    res.status(200).send({ done: true })
+    const registers = await findRegistersGroupByType(req.body)
+    res.status(200).send({ done: true, data: registers })
   } catch (error: any) {
     console.error(error)
     res.status(500).end(error.message)

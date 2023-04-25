@@ -89,7 +89,21 @@ export  async function findRegisters({ username}: any) {
   const user = await findUser({username})
   try {
     const result:any = await excuteQuery({
-        query: 'select name, type, category, period, value from despesas_fundos where user_id = ?',
+        query: 'select name, type, category, period, value, id from despesas_fundos where user_id = ?',
+        values: [user.id],
+    });
+    return result[0];
+  } catch ( error ) {
+      console.log( error );
+  }
+
+}
+
+export  async function findRegistersGroupByCategory({ username}: any) {
+  const user = await findUser({username})
+  try {
+    const result:any = await excuteQuery({
+        query: 'select name, type, category, period, SUM(value), id from despesas_fundos where user_id = ? group by category',
         values: [user.id],
     });
     return result[0];
@@ -97,3 +111,18 @@ export  async function findRegisters({ username}: any) {
       console.log( error );
   }
 }
+
+export  async function findRegistersGroupByType({ username}: any) {
+  const user = await findUser({username})
+  try {
+    const result:any = await excuteQuery({
+        query: 'select name, type, category, period, SUM(value), id from despesas_fundos where user_id = ? group by type',
+        values: [user.id],
+    });
+    console.log( result );
+    return result[0];
+  } catch ( error ) {
+      console.log( error );
+  }
+}
+

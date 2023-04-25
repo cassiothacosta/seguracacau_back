@@ -34,7 +34,7 @@ export default async function insertRegister(req: any, res: any){
   try {
     await runMiddleware(req, res, cors)
     addRegister(req.body)
-    res.status(200).send({ done: true })
+     res.status(200).send({ done: true })
   } catch (error: any) {
     console.error(error)
     res.status(500).end(error.message)
