@@ -16,7 +16,7 @@ export default async function excuteQuery({ query, values }: any) {
         user: process.env.MYSQL_USER,
         password: process.env.MYSQL_PASSWORD 
       }).then((connection: any) =>{
-        return connection.query(query, values)
+        return connection.query(query, values).then(connection.end())
       });
     return result;
   } catch (error) {

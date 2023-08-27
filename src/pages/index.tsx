@@ -16,9 +16,11 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
+        <div role="heading" aria-level="2">Second Heading Level Two</div>
           <p>
             Get started by editing&nbsp;
             <code className={styles.code}>src/pages/index.tsx</code>
+            
           </p>
           <div>
             <a
