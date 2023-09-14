@@ -41,10 +41,11 @@ export  function createUser({ username, password }: any) {
 
   // This is an in memory store for users, there is no data persistence without a proper DB
   try {
-      const result =  excuteQuery({
+      return excuteQuery({
           query: 'INSERT INTO users (id, createdAt, username, hash, salt) VALUES(?, ?, ?, ?, ?)',
           values: [user.id, user.createdAt.toString(), user.username, user.hash, user.salt],
       });
+     
   } catch ( error ) {
       console.log( error );
   }
