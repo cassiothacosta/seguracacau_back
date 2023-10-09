@@ -80,7 +80,7 @@ export  async function findRegisters({ username}: any) {
   const user = await findUser({username})
   try {
     const result:any = await executeQuery({
-        query: 'select name, type, category, period, value, id from despesas_fundos where user_id = ? and MONTH(createdAt) = MONTH(now()) and YEAR(createdAt) = YEAR(now())',
+        query: 'select name, type, category, period, value, createdAt, id from despesas_fundos where user_id = ? ',
         values: [user.id],
     });
     return result[0];
@@ -94,7 +94,7 @@ export  async function findRegistersGroupByCategory({ username}: any) {
   const user = await findUser({username})
   try {
     const result:any = await executeQuery({
-        query: 'select category as name, SUM(value) as value from despesas_fundos where user_id = ? and type = "Despesa" and MONTH(createdAt) = MONTH(now()) and YEAR(createdAt) = YEAR(now())group by category',
+        query: 'select category as name, SUM(value) as value from despesas_fundos where user_id = ? and type = "Despesa" group by category',
         values: [user.id],
     });
     return result[0];
@@ -107,7 +107,7 @@ export  async function findRegistersGroupByType({ username}: any) {
   const user = await findUser({username})
   try {
     const result:any = await executeQuery({
-        query: 'select type as name, SUM(value) as value from despesas_fundos where user_id = ? and MONTH(createdAt) = MONTH(now()) and YEAR(createdAt) = YEAR(now()) group by type',
+        query: 'select type as name, SUM(value) as value from despesas_fundos where user_id = ? group by type',
         values: [user.id],
     });
     return result[0];
@@ -116,3 +116,16 @@ export  async function findRegistersGroupByType({ username}: any) {
   }
 }
 
+export  async function findRegistersByDate({ username}: any) {
+  const user = await findUser({username})
+  try {
+    const result:any = await executeQuery({
+        query: 'select name, type, category, period, value, createdAt,  id from despesas_fundos where user_id = ? and MONTH(createdAt) = MONTH(DATE(?)) and YEAR(createdAt) = YEAR(DATE(?))',
+        values: [user.id],
+    });
+    return result[0];
+  } catch ( error ) {
+      console.log( error );
+  }
+
+}
