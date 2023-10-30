@@ -33,8 +33,9 @@ export default async function deleteRegister(req: any, res: any){
 
   try {
     await runMiddleware(req, res, cors)
-    removeRegister(req.body)
-    res.status(200).send({ done: true })
+    removeRegister(req.body).then(()=>{
+      res.status(200).send({ done: true })
+    })
   } catch (error: any) {
     console.error(error)
     res.status(500).end(error.message)
