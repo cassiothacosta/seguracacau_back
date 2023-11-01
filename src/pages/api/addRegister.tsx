@@ -1,13 +1,14 @@
-import user from './user'
 import {addRegister} from '../../lib/register'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Cors from 'cors'
+
+const apiLink = process.env.FRONTEND_API
 
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
 const cors = Cors({
   methods: ['POST', 'GET', 'HEAD'],
-  origin: 'http://localhost:3002',
+  origin: apiLink,
   credentials: true
 })
 

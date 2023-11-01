@@ -5,11 +5,13 @@ import { setLoginSession } from '../../lib/auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Cors from 'cors'
 
+const apiLink = process.env.FRONTEND_API
+
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
 const cors = Cors({
   methods: ['POST', 'GET', 'HEAD'],
-  origin: 'http://localhost:3002',
+  origin: apiLink,
   credentials: true
 })
 
@@ -53,7 +55,7 @@ export default async function login(req: any, res: any) {
       const session = { ...user }
 
       await setLoginSession(res, session)
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
+      res.setHeader('Access-Control-Allow-Origin', apiLink);
       // Set to true if you need the website to include cookies in the requests sent
       // to the API (e.g. in case you use sessions)
       res.setHeader('Access-Control-Allow-Credentials', true);
