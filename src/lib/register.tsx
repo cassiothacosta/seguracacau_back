@@ -114,7 +114,7 @@ export async function findRegistersGroupByCategory({ username }: any) {
         union
           select a.category as name, SUM(a.value) as value from despesas_fundos as a 
             join users as u on u.id = a.user_id and u.id = ?
-              where type = "Despesa" and date(a.createdAt) between date(DATE_SUB(now(), INTERVAL DAYOFMONTH(now())-u.daysToExpire DAY)) and date(DATE_SUB(date_add(now(), interval 1 month), INTERVAL DAYOFMONTH(now())-u.daysToExpire DAY)) and isnull(removedAt) and a.period = "E" group by category
+              where type = "Despesa" and date(a.createdAt) between date(DATE_SUB(now(), INTERVAL DAYOFMONTH(now())-1 DAY)) and date(last_day(now())) and isnull(removedAt) and a.period = "E" group by category
         union
           select a.category as name, SUM(a.value) as value from despesas_fundos as a 
             join periodicity as p on a.period = p.value and a.period = "A" 
@@ -140,11 +140,11 @@ export async function findRegistersGroupByType({ username }: any) {
         select name, sum(value) as value from (
           select t.name as name, SUM(a.value) as value from despesas_fundos as a 
             join types as t on t.name = a.type join users as u on u.id = a.user_id and u.id = ?
-              where isnull(removedAt) and a.period = "M"  group by type
+              where isnull(removedAt) and a.period = "M" group by type
           union
           select t.name as name, SUM(a.value) as value from despesas_fundos as a 
             join types as t on t.name = a.type join users as u on u.id = a.user_id and u.id = ?
-              where date(a.createdAt) between date(DATE_SUB(now(), INTERVAL DAYOFMONTH(now())-u.daysToExpire DAY)) and date(DATE_SUB(date_add(now(), interval 1 month), INTERVAL DAYOFMONTH(now())-u.daysToExpire DAY)) and isnull(removedAt) and a.period = "E" group by type
+              where date(a.createdAt) between date(DATE_SUB(now(), INTERVAL DAYOFMONTH(now())-1 DAY)) and date(last_day(now())) and isnull(removedAt) and a.period = "E" group by type
           union
           select t.name as name, SUM(a.value) as value from despesas_fundos as a 
             join types as t on t.name = a.type join users as u on u.id = a.user_id and u.id = ?
