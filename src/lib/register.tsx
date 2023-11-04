@@ -14,7 +14,7 @@ export default async function executeQuery({ query, values }: any) {
     }).then((connection: any) => {
       return connection.query(query, values).then(connection.end())
     });
-    return result;
+    return result[0].length > 0 ? result : [];
   } catch (error) {
     return { error };
   }
@@ -191,9 +191,9 @@ export async function findRegistersByDate({ username, year }: any) {
             union
               select a.* from despesas_fundos as a
                 join periodicity as p on a.period = p.value and p.value = "A" 
-                  where month(a.createdAt) = month(date(?)) and (isnull(a.removedAt) or date(a.removedAt) > last_day(date(?))) and a.user_id = ?
+                  where month(a.createdAt) = month(date(?)) and (isnull(a.removedAt) or date(a.removedAt) > last_day(date(?))) and year(a.createdAt) <= year(date(?)) and a.user_id = ?
           `,
-        values: [date, date, user.id, date, date, date, user.id, date, date, user.id],
+        values: [date, date, user.id, date, date, date, user.id, date, date, date, user.id],
       })
       return  result[0];
     }))
