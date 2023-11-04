@@ -1,14 +1,14 @@
 import { createUser } from '../../lib/user'
-
-
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Cors from 'cors'
+
+const apiLink = process.env.FRONTEND_API
 
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
 const cors = Cors({
   methods: ['POST', 'GET', 'HEAD'],
-  origin: 'http://localhost:3002',
+  origin: apiLink,
   credentials: true
 })
 
@@ -34,10 +34,14 @@ function runMiddleware(
 export default async function signup(req: any, res: any) {
   try {
     await runMiddleware(req, res, cors)
-    await createUser(req.body)
-    res.status(200).send({ done: true })
+    const result = await createUser(req.body)
+    if(result.error){
+      res.status(500).send({error: result.error})
+    }else{
+      res.status(200).send({ done: true })
+    }
   } catch (error: any) {
     console.error(error)
-    res.status(500).end(error.message)
+    res.status(500).send(error.message)
   }
 }

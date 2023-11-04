@@ -1,13 +1,14 @@
-import user from './user'
 import {addRegister} from '../../lib/register'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Cors from 'cors'
+
+const apiLink = process.env.FRONTEND_API
 
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
 const cors = Cors({
   methods: ['POST', 'GET', 'HEAD'],
-  origin: 'http://localhost:3002',
+  origin: apiLink,
   credentials: true
 })
 
@@ -34,7 +35,7 @@ export default async function insertRegister(req: any, res: any){
   try {
     await runMiddleware(req, res, cors)
     addRegister(req.body)
-    res.status(200).send({ done: true })
+     res.status(200).send({ done: true })
   } catch (error: any) {
     console.error(error)
     res.status(500).end(error.message)
