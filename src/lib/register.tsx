@@ -195,13 +195,62 @@ export async function findRegistersByDate({ username, year }: any) {
           `,
         values: [date, date, user.id, date, date, date, user.id, date, date, date, user.id],
       })
-      return  result[0];
+      return result[0];
     }))
-    
+
     return results;
 
   } catch (error) {
     console.log(error);
   }
 
+}
+
+
+export async function findCategoryValuesByMonth({ username, year, keysArray }: any) {
+  const user = await findUser({ username })
+  try {
+    let yearObj: Object = {
+      0: 'jan',
+      1: 'feb',
+      2: 'mar',
+      3: 'apr',
+      4: 'may',
+      5: 'jun',
+      6: 'jul',
+      7: 'aug',
+      8: 'sep',
+      9: 'oct',
+      10: 'nov',
+      11: 'dec'
+    }
+    const results: Object = await Promise.all(Object.keys(keysArray).map(async function (chave, valor) {
+      const result: any = await Promise.all(Object.keys(yearObj as object).map(async function (key: any, value: any) {
+        const date = new Date(yearObj[key as keyof Object] + ',' + year).toISOString().split('T')[0]
+        const result: any = await executeQuery({
+          query: `
+          select name, sum(value) as value from (
+            select a.category as name, SUM(a.value) as value from despesas_fundos as a 
+              join periodicity as p on a.period = p.value and a.period = "M" 
+              where date(a.createdAt) <= last_day(date(?)) and (isnull(a.removedAt) or date(a.removedAt) > last_day(date(?))) and a.user_id = ? and type = "Despesa" and a.category = (?) group by category
+            union
+              select a.category as name, SUM(a.value) as value from despesas_fundos as a 
+              join periodicity as p on a.period = p.value and a.period = "E"
+                where date(a.createdAt) between date(DATE_SUB(date(?), INTERVAL DAYOFMONTH(date(?))-1 DAY)) and LAST_DAY(date(?)) and isnull(a.removedAt) and a.user_id = ? and type = "Despesa" and a.category = (?) group by category
+            union
+              select a.category as name, SUM(a.value) as value from despesas_fundos as a 
+                join periodicity as p on a.period = p.value and a.period = "A" 
+                where month(a.createdAt) = month(date(?)) and (isnull(a.removedAt) or date(a.removedAt) > last_day(date(?))) and year(a.createdAt) <= year(date(?)) and a.user_id = ?  and type = "Despesa" and a.category = (?) group by category
+             ) as results group by name
+  `,
+          values: [date, date, user.id, keysArray[valor], date, date, date, user.id, keysArray[valor], date, date, date, user.id, keysArray[valor]],
+        })
+        return result[0] && result[0][0];
+      }))
+      return result
+    }))
+    return results;
+  } catch (error) {
+    console.log(error);
+  }
 }
