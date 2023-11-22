@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home> should render component 1`] = `
+<div
+  className="jsx-e23c2f6fc798f3bf "
+>
+  <main
+    className="jsx-e23c2f6fc798f3bf"
+  >
+    <h1
+      className="jsx-e23c2f6fc798f3bf "
+    >
+      Welcome to 
+      <a
+        className="jsx-e23c2f6fc798f3bf"
+        href="https://nextjs.org"
+      >
+        Next.js!
+      </a>
+    </h1>
+    <p
+      className="jsx-e23c2f6fc798f3bf "
+    >
+      Get started by editing 
+      <code
+        className="jsx-e23c2f6fc798f3bf"
+      >
+        pages/index.js
+      </code>
+    </p>
+    <div
+      className="jsx-e23c2f6fc798f3bf "
+    >
+      <a
+        className="jsx-e23c2f6fc798f3bf "
+        href="https://nextjs.org/docs"
+      >
+        <h3
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Documentation →
+        </h3>
+        <p
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Find in-depth information about Next.js features and API.
+        </p>
+      </a>
+      <a
+        className="jsx-e23c2f6fc798f3bf "
+        href="https://nextjs.org/learn"
+      >
+        <h3
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Learn →
+        </h3>
+        <p
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Learn about Next.js in an interactive course with quizzes!
+        </p>
+      </a>
+      <a
+        className="jsx-e23c2f6fc798f3bf "
+        href="https://github.com/vercel/next.js/tree/canary/examples"
+      >
+        <h3
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Examples →
+        </h3>
+        <p
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Discover and deploy boilerplate example Next.js projects.
+        </p>
+      </a>
+      <a
+        className="jsx-e23c2f6fc798f3bf "
+        href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+      >
+        <h3
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Deploy →
+        </h3>
+        <p
+          className="jsx-e23c2f6fc798f3bf"
+        >
+          Instantly deploy your Next.js site to a public URL with Vercel.
+        </p>
+      </a>
+    </div>
+  </main>
+  <footer
+    className="jsx-e23c2f6fc798f3bf"
+  >
+    <a
+      className="jsx-e23c2f6fc798f3bf"
+      href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Powered by
+       
+      <img
+        alt="Vercel"
+        className="jsx-e23c2f6fc798f3bf "
+        src="/vercel.svg"
+      />
+    </a>
+  </footer>
+</div>
+`;

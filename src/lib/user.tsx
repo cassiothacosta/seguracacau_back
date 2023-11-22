@@ -7,7 +7,7 @@ import promise from 'mysql2/promise'
  * db here, such as MongoDB, Fauna, SQL, etc.
  */
 
-export default async function excuteQuery({ query, values }: any) {
+export default async function executeQuery({ query, values }: any) {
   try {
       const result = await promise.createConnection({
         host: process.env.MYSQL_HOST,
@@ -41,7 +41,7 @@ export  function createUser({ username, password }: any) {
 
   // This is an in memory store for users, there is no data persistence without a proper DB
   try {
-      return excuteQuery({
+      return executeQuery({
           query: 'INSERT INTO users (id, createdAt, username, hash, salt) VALUES(?, ?, ?, ?, ?)',
           values: [user.id, user.createdAt.toString(), user.username, user.hash, user.salt],
       });
@@ -59,7 +59,7 @@ export  async function findUser({ username }: any) {
   // This is an in memory store for users, there is no data persistence without a proper DB
 
   try {
-    const result:any = await excuteQuery({
+    const result:any = await executeQuery({
         query: 'select * from users where username = ?',
         values: [username],
     });
