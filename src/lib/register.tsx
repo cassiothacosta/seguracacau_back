@@ -154,18 +154,18 @@ export async function findRegistersGroupByType({ username, registersDate }: any)
     const result: any = await executeQuery({
       query: ` 
         select name, sum(value) as value from (
-          select t.name as name, SUM(a.value) as value from despesas_fundos as a 
+          select t.name as name, a.name as rname, SUM(a.value) as value from despesas_fundos as a 
             join types as t on t.name = a.type join users as u on u.id = a.user_id and u.id = ?
               where (isnull(removedAt) or (TO_DAYS(DATE_SUB(date(removedAt), interval DAYOFMONTH(date(removedAt))-1 DAY)) - 
           TO_DAYS(DATE_SUB(date(?), interval DAYOFMONTH(date(?))-1 DAY)) > 0)) and (TO_DAYS(DATE_SUB(date(?), interval DAYOFMONTH(date(?))-1 DAY)) - 
           TO_DAYS(DATE_SUB(date(a.createdAt), interval DAYOFMONTH(date(a.createdAt))-1 DAY)) >= 0) and a.period = "M" group by type
           union
-          select t.name as name, SUM(a.value) as value from despesas_fundos as a 
+          select t.name as name, a.name as rname, SUM(a.value) as value from despesas_fundos as a 
             join types as t on t.name = a.type join users as u on u.id = a.user_id and u.id = ?
               where date(a.createdAt) between date(DATE_SUB(date(?), INTERVAL DAYOFMONTH(date(?))-1 DAY)) and date(last_day(date(?))) and (isnull(removedAt) or (TO_DAYS(DATE_SUB(date(removedAt), interval DAYOFMONTH(date(removedAt))-1 DAY)) - 
           TO_DAYS(DATE_SUB(date(?), interval DAYOFMONTH(date(?))-1 DAY)) > 0)) and a.period = "E" group by type
           union
-          select t.name as name, SUM(a.value) as value from despesas_fundos as a 
+          select t.name as name, a.name as rname, SUM(a.value) as value from despesas_fundos as a 
             join types as t on t.name = a.type join users as u on u.id = a.user_id and u.id = ?
               where month(date(?)) = month(a.createdAt) and (isnull(removedAt) or (TO_DAYS(DATE_SUB(date(removedAt), interval DAYOFMONTH(date(removedAt))-1 DAY)) - 
           TO_DAYS(DATE_SUB(date(?), interval DAYOFMONTH(date(?))-1 DAY)) > 0)) and a.period = "A" group by type order by name asc
